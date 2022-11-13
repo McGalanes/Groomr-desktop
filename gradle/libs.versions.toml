@@ -1,9 +1,13 @@
 [versions]
 
+junit4 = "4.13.2"
 material3 = "1.2.1"
+mockk = "1.12.4"
 
 [libraries]
 
 compose-material3 = { module = "org.jetbrains.compose.material3:material3-desktop", version.ref = "material3" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]

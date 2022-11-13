@@ -1,4 +1,3 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -29,7 +28,13 @@ kotlin {
                 implementation(libs.compose.material3)
             }
         }
-        val jvmTest by getting
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.junit4)
+                implementation(libs.mockk)
+            }
+        }
     }
 }
 

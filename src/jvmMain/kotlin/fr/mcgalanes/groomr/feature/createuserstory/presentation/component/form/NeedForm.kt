@@ -1,12 +1,11 @@
 @file:OptIn(ExperimentalComposeUiApi::class)
 
-package fr.mcgalanes.groomr.feature.createuserstory.presentation.component
+package fr.mcgalanes.groomr.feature.createuserstory.presentation.component.form
 
 import ExtractedStrings
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +27,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.InputType
 @Preview
 @Composable
 private fun NeedFormPreview() {
-    AppTheme(useDarkTheme = false) {
+    AppTheme {
         NeedForm(
             modifier = Modifier.padding(16.dp),
             personaInput = "",
@@ -50,7 +49,7 @@ fun NeedForm(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Card(
+    Column(
         modifier = modifier
             .onKeyPressedDown { key ->
                 when (key) {
@@ -71,45 +70,39 @@ fun NeedForm(
                 }
 
             },
-        shape = MaterialTheme.shapes.large,
-        backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = ExtractedStrings.createuserstory_needform_title,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-            )
+        Text(
+            text = ExtractedStrings.createuserstory_needform_title,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+        )
 
-            VerticalSpace(24.dp)
+        VerticalSpace(24.dp)
 
-            OutlinedTextField(
-                label = { Text(text = ExtractedStrings.createuserstory_needform_persona_label) },
-                placeholder = { Text(text = ExtractedStrings.createuserstory_needform_persona_placeholder) },
-                value = personaInput,
-                onValueChange = { onInputChange(InputType.PERSONA, it) },
-            )
+        OutlinedTextField(
+            label = { Text(text = ExtractedStrings.createuserstory_needform_persona_label) },
+            placeholder = { Text(text = ExtractedStrings.createuserstory_needform_persona_placeholder) },
+            value = personaInput,
+            onValueChange = { onInputChange(InputType.PERSONA, it) },
+        )
 
-            VerticalSpace(16.dp)
+        VerticalSpace(16.dp)
 
-            OutlinedTextField(
-                label = { Text(text = ExtractedStrings.createuserstory_needform_wish_label) },
-                placeholder = { Text(text = ExtractedStrings.createuserstory_needform_wish_placeholder) },
-                value = wishInput,
-                onValueChange = { onInputChange(InputType.WISH, it) },
-            )
+        OutlinedTextField(
+            label = { Text(text = ExtractedStrings.createuserstory_needform_wish_label) },
+            placeholder = { Text(text = ExtractedStrings.createuserstory_needform_wish_placeholder) },
+            value = wishInput,
+            onValueChange = { onInputChange(InputType.WISH, it) },
+        )
 
-            VerticalSpace(16.dp)
+        VerticalSpace(16.dp)
 
-            OutlinedTextField(
-                label = { Text(text = ExtractedStrings.createuserstory_needform_goal_label) },
-                placeholder = { Text(text = ExtractedStrings.createuserstory_needform_goal_placeholder) },
-                value = goalInput,
-                onValueChange = { onInputChange(InputType.GOAL, it) },
-            )
-        }
+        OutlinedTextField(
+            label = { Text(text = ExtractedStrings.createuserstory_needform_goal_label) },
+            placeholder = { Text(text = ExtractedStrings.createuserstory_needform_goal_placeholder) },
+            value = goalInput,
+            onValueChange = { onInputChange(InputType.GOAL, it) },
+        )
     }
 }
 

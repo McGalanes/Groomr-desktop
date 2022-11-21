@@ -12,13 +12,13 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.CreateUserStoryS
 @Composable
 @Preview
 fun App() {
-    AppTheme(useDarkTheme = false) {
+    AppTheme {
         CreateUserStoryScreen()
     }
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(onCloseRequest = ::exitApplication, title = "Sauce Majid Bogoss") {
         App()
     }
 }

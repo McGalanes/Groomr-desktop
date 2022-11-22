@@ -5,11 +5,13 @@ package fr.mcgalanes.groomr.feature.createuserstory.presentation.component.form
 import ExtractedStrings
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -51,6 +53,7 @@ fun NeedForm(
 
     Column(
         modifier = modifier
+            .fillMaxWidth()
             .onKeyPressedDown { key ->
                 when (key) {
                     Key.Escape -> {
@@ -70,14 +73,16 @@ fun NeedForm(
                 }
 
             },
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = ExtractedStrings.createuserstory_needform_title,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
         )
 
         VerticalSpace(24.dp)
+
 
         OutlinedTextField(
             label = { Text(text = ExtractedStrings.createuserstory_needform_persona_label) },

@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -49,12 +49,12 @@ fun DualPanel(
         modifier = modifier.background(MaterialTheme.colorScheme.inversePrimary)
     ) {
         Box(
-            modifier = Modifier.fillMaxHeight().width(500.dp),
+            modifier = Modifier.fillMaxHeight().fillMaxWidth(fraction = 1 / 2f),
         ) { secondaryPanelContent() }
 
         Surface(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(24.dp),
             shape = MaterialTheme.shapes.extraLarge,
             color = MaterialTheme.colorScheme.surfaceVariant,

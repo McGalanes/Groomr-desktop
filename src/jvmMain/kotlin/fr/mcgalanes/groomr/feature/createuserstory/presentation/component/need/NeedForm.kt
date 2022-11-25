@@ -1,14 +1,14 @@
 @file:OptIn(ExperimentalComposeUiApi::class)
 
-package fr.mcgalanes.groomr.feature.createuserstory.presentation.component.form
+package fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need
 
 import ExtractedStrings
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +22,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import fr.mcgalanes.groomr.core.compose.component.spacer.HorizontalSpace
 import fr.mcgalanes.groomr.core.compose.component.spacer.VerticalSpace
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.InputType
@@ -29,14 +30,28 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.InputType
 @Preview
 @Composable
 private fun NeedFormPreview() {
-    AppTheme {
-        NeedForm(
-            modifier = Modifier.padding(16.dp),
-            personaInput = "",
-            wishInput = "",
-            goalInput = "",
-            onInputChange = { _, _ -> },
-        )
+    Column {
+        AppTheme(useDarkTheme = false) {
+            NeedForm(
+                modifier = Modifier.padding(16.dp),
+                personaInput = "",
+                wishInput = "",
+                goalInput = "",
+                onInputChange = { _, _ -> },
+            )
+        }
+
+        HorizontalSpace(16.dp)
+
+        AppTheme(useDarkTheme = true) {
+            NeedForm(
+                modifier = Modifier.padding(16.dp),
+                personaInput = "",
+                wishInput = "",
+                goalInput = "",
+                onInputChange = { _, _ -> },
+            )
+        }
     }
 }
 

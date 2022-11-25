@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.dp
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.DualPanel
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.FormsStepper
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.form.NeedForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
 
 @Preview
 @Composable
@@ -52,7 +53,7 @@ fun CreateUserStoryScreen(modifier: Modifier = Modifier) {
             }
         },
         secondaryPanelContent = {
-
+            NeedTips(Modifier.fillMaxSize())
         },
     )
 }

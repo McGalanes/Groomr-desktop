@@ -31,8 +31,8 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation(libs.junit4)
                 implementation(libs.mockk)
+                implementation(libs.kotlinTest)
             }
         }
     }

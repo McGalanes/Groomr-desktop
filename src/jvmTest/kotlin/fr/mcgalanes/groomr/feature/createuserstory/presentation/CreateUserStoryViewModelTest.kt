@@ -3,8 +3,8 @@ package fr.mcgalanes.groomr.feature.createuserstory.presentation
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.InputType
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.UserStory
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.UserStory.Need
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.Test
 
 
 internal class CreateUserStoryViewModelTest {

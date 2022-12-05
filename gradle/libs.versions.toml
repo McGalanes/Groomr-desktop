@@ -1,12 +1,14 @@
 [versions]
 
 junit4 = "4.13.2"
+koin = "3.2.2"
 material3 = "1.2.1"
 mockk = "1.12.4"
 
 [libraries]
 
 compose-material3 = { module = "org.jetbrains.compose.material3:material3-desktop", version.ref = "material3" }
+koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 

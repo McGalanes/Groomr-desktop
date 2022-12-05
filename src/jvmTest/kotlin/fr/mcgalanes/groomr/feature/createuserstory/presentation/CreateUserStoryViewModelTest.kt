@@ -1,75 +1,56 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.InputType
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.UserStory
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.UserStory.Need
-import kotlin.test.assertEquals
+import fr.mcgalanes.groomr.feature.createuserstory.domain.StepUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+import io.mockk.every
+import io.mockk.mockk
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlinx.coroutines.runBlocking
 
 
 internal class CreateUserStoryViewModelTest {
 
-    private fun viewModel() = CreateUserStoryViewModel()
+    private val stepUseCase: StepUseCase = mockk()
+    private fun viewModel() = CreateUserStoryViewModel(stepUseCase)
 
     @Test
-    fun `on init, should show empty user story`() {
-        //WHEN
-        val viewModel = viewModel()
-
-        //THEN
-        assertEquals(
-            UserStory(
-                Need(persona = "", wish = "", goal = ""),
-            ),
-            viewModel.uiState.value.userStory,
-        )
-    }
-
-    @Test
-    fun `on persona input change, should save value`() {
+    fun `on next click, should show next step`() = runBlocking {
         //GIVEN
+        val nextStep = Step.values().random()
+        every { stepUseCase.getNext(any()) } returns nextStep
+
         val viewModel = viewModel()
-        val input = "Skrillex"
 
         //WHEN
-        viewModel.onInputChange(inputType = InputType.PERSONA, value = input)
+        viewModel.onNextClick()
 
         //THEN
         assertEquals(
-            input,
-            viewModel.uiState.value.userStory.need.persona,
+            viewModel.userStoryState.value[nextStep],
+            viewModel.uiState.value.stepState,
         )
     }
+
+    //test when useCase return null
 
     @Test
-    fun `on wish input change, should save value`() {
+    fun `on previous click, should show previous step`() = runBlocking {
         //GIVEN
+        val previousStep = Step.values().random()
+        every { stepUseCase.getPrevious(any()) } returns previousStep
+
         val viewModel = viewModel()
-        val input = "add a button"
 
         //WHEN
-        viewModel.onInputChange(inputType = InputType.WISH, value = input)
+        viewModel.onPreviousClick()
 
         //THEN
         assertEquals(
-            input,
-            viewModel.uiState.value.userStory.need.wish,
+            viewModel.userStoryState.value[previousStep],
+            viewModel.uiState.value.stepState,
         )
     }
 
-    @Test
-    fun `on goal input change, should save value`() {
-        //GIVEN
-        val viewModel = viewModel()
-        val input = "increase transaction"
-
-        //WHEN
-        viewModel.onInputChange(inputType = InputType.GOAL, value = input)
-
-        //THEN
-        assertEquals(
-            input,
-            viewModel.uiState.value.userStory.need.goal,
-        )
-    }
+    //test when useCase return null
 }

@@ -14,23 +14,23 @@ class CreateUserStoryViewModel(
     private val _userStoryState = MutableStateFlow(defaultUserStoryState())
     val userStoryState = _userStoryState.asStateFlow()
 
-    private val _uiState = MutableStateFlow(UiState(stepState = userStoryState.value[Step.Need]))
+    private val _uiState = MutableStateFlow(UiState(stepFormState = userStoryState.value[Step.Need]))
     val uiState = _uiState.asStateFlow()
 
     fun onNextClick() {
-        val currentStep = _uiState.value.stepState.step
+        val currentStep = _uiState.value.stepFormState.step
         stepUseCase.getNext(currentStep)?.let { nextStep ->
             _uiState.update {
-                it.copy(stepState = userStoryState.value[nextStep])
+                it.copy(stepFormState = userStoryState.value[nextStep])
             }
         }
     }
 
     fun onPreviousClick() {
-        val currentStep = _uiState.value.stepState.step
+        val currentStep = _uiState.value.stepFormState.step
         stepUseCase.getPrevious(currentStep)?.let { previousStep ->
             _uiState.update {
-                it.copy(stepState = userStoryState.value[previousStep])
+                it.copy(stepFormState = userStoryState.value[previousStep])
             }
         }
     }

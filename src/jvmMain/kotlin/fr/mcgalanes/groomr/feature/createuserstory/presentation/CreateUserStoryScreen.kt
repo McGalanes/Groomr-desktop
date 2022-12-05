@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -14,7 +16,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.DualPa
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.FormsStepper
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepState
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepFormState
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
 
@@ -24,34 +26,42 @@ private fun CreateUserStoryScreenPreview() {
     AppTheme {
         CreateUserStoryScreen(
             uiState = UiState(
-                stepState = StepState.Need("", "", "")
+                stepFormState = StepFormState.Need(
+                    persona = "acheteur",
+                    wish = "négocier le prix d'un article",
+                    goal = "acheter au meilleur prix",
+                )
             ),
-            onNextClick = { },
-            onPreviousClick = { },
+            onNextClick = {},
+            onPreviousClick = {},
+            onStepFormStateChange = {}
         )
     }
 }
 
 @Composable
-fun CreateUserStoryRoute(
-    viewModel: CreateUserStoryViewModel = get(),
+fun CreateUserStoryScreen(
+    modifier: Modifier = Modifier,
+    createUserStoryViewModel: CreateUserStoryViewModel = get()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by createUserStoryViewModel.uiState.collectAsState()
 
     CreateUserStoryScreen(
+        modifier = modifier,
         uiState = uiState,
-        onNextClick = viewModel::onNextClick,
-        onPreviousClick = viewModel::onPreviousClick,
+        onNextClick = createUserStoryViewModel::onNextClick,
+        onPreviousClick = createUserStoryViewModel::onPreviousClick,
+        onStepFormStateChange = {}
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CreateUserStoryScreen(
+private fun CreateUserStoryScreen(
     modifier: Modifier = Modifier,
     uiState: UiState,
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
+    onStepFormStateChange: (StepFormState) -> Unit,
 ) {
     DualPanel(
         modifier = modifier.fillMaxSize(),
@@ -61,16 +71,14 @@ fun CreateUserStoryScreen(
                 onNextClick = onNextClick,
                 onPreviousClick = onPreviousClick,
             ) {
-                when (val stepState = uiState.stepState) {
-                    is StepState.Need -> {
+                when (val stepState = uiState.stepFormState) {
+                    is StepFormState.Need -> {
                         NeedForm(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(16.dp),
-                            personaInput = stepState.persona,
-                            wishInput = stepState.wish,
-                            goalInput = stepState.goal,
-                            onInputChange = { _, _ -> },
+                            state = stepState,
+                            onFormChange = onStepFormStateChange
                         )
                     }
 
@@ -79,12 +87,11 @@ fun CreateUserStoryScreen(
             }
         },
         secondaryPanelContent = {
-            when (uiState.stepState) {
-                is StepState.Need -> NeedTips(Modifier.fillMaxSize())
+            when (uiState.stepFormState) {
+                is StepFormState.Need -> NeedTips(Modifier.fillMaxSize())
 
                 else -> {}
             }
-
         },
     )
 }

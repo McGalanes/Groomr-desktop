@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.runBlocking
 
 
 internal class CreateUserStoryViewModelTest {
@@ -15,7 +14,7 @@ internal class CreateUserStoryViewModelTest {
     private fun viewModel() = CreateUserStoryViewModel(stepUseCase)
 
     @Test
-    fun `on next click, should show next step`() = runBlocking {
+    fun `on next click, should show next step`() {
         //GIVEN
         val nextStep = Step.values().random()
         every { stepUseCase.getNext(any()) } returns nextStep
@@ -28,14 +27,12 @@ internal class CreateUserStoryViewModelTest {
         //THEN
         assertEquals(
             viewModel.userStoryState.value[nextStep],
-            viewModel.uiState.value.stepState,
+            viewModel.uiState.value.stepFormState,
         )
     }
 
-    //test when useCase return null
-
     @Test
-    fun `on previous click, should show previous step`() = runBlocking {
+    fun `on previous click, should show previous step`() {
         //GIVEN
         val previousStep = Step.values().random()
         every { stepUseCase.getPrevious(any()) } returns previousStep
@@ -48,9 +45,7 @@ internal class CreateUserStoryViewModelTest {
         //THEN
         assertEquals(
             viewModel.userStoryState.value[previousStep],
-            viewModel.uiState.value.stepState,
+            viewModel.uiState.value.stepFormState,
         )
     }
-
-    //test when useCase return null
 }

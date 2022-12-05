@@ -8,6 +8,7 @@ mockk = "1.12.4"
 [libraries]
 
 compose-material3 = { module = "org.jetbrains.compose.material3:material3-desktop", version.ref = "material3" }
+compose-material-icons = { module = "org.jetbrains.compose.material:material-icons-extended-desktop", version.ref = "material3" }
 koin = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }

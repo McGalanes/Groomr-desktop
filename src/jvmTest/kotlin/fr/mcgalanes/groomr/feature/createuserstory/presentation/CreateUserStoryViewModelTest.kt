@@ -1,7 +1,9 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
-import fr.mcgalanes.groomr.feature.createuserstory.domain.StepUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.StepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepsNavBarState
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.Test
@@ -10,14 +12,41 @@ import kotlin.test.assertEquals
 
 internal class CreateUserStoryViewModelTest {
 
-    private val stepUseCase: StepUseCase = mockk()
-    private fun viewModel() = CreateUserStoryViewModel(stepUseCase)
+    private val stepsUseCase: StepsUseCase = mockk {
+        every { getSteps() } returns emptyArray()
+    }
+
+    private fun viewModel() = CreateUserStoryViewModel(stepsUseCase)
+
+    @Test
+    fun `on init, should show steps nav bar with 'need step' selected`() {
+        //GIVEN
+        val steps = Step.values()
+        every { stepsUseCase.getSteps() } returns steps
+
+        //WHEN
+        val viewModel = viewModel()
+
+        //THEN
+        assertEquals(
+            StepsNavBarState(
+                items = steps
+                    .map {
+                        StepsNavBarState.ItemState(
+                            item = it.toStepItem(),
+                            isSelected = it == Step.Need
+                        )
+                    }
+            ),
+            viewModel.uiState.value.stepsNavBarState,
+        )
+    }
 
     @Test
     fun `on next click, should show next step`() {
         //GIVEN
         val nextStep = Step.values().random()
-        every { stepUseCase.getNext(any()) } returns nextStep
+        every { stepsUseCase.getNext(any()) } returns nextStep
 
         val viewModel = viewModel()
 
@@ -35,7 +64,7 @@ internal class CreateUserStoryViewModelTest {
     fun `on previous click, should show previous step`() {
         //GIVEN
         val previousStep = Step.values().random()
-        every { stepUseCase.getPrevious(any()) } returns previousStep
+        every { stepsUseCase.getPrevious(any()) } returns previousStep
 
         val viewModel = viewModel()
 

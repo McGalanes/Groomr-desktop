@@ -7,5 +7,5 @@ enum class Step {
     Solution,
     Enablers,
     Assets,
-    AcceptanceCriteria,
+    UAT,
 }

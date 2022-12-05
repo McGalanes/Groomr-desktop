@@ -19,7 +19,7 @@ internal class UserStoryStateTest {
             Step.Solution to userStoryState.solutionState,
             Step.Enablers to userStoryState.enablersState,
             Step.Assets to userStoryState.assetsState,
-            Step.AcceptanceCriteria to userStoryState.acceptanceCriteriaState,
+            Step.UAT to userStoryState.acceptanceCriteriaState,
         )
 
         //WHEN

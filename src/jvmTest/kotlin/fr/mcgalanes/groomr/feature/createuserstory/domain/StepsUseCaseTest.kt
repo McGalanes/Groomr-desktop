@@ -2,12 +2,35 @@ package fr.mcgalanes.groomr.feature.createuserstory.domain
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 
-internal class StepUseCaseTest {
+internal class StepsUseCaseTest {
 
-    private val stepUseCase = StepUseCase()
+    private val stepsUseCase = StepsUseCase()
+
+    @Test
+    fun `get steps, should return all steps`() {
+        //WHEN
+        val actual = stepsUseCase.getSteps()
+
+        //THEN
+        val expected = arrayOf(
+            Step.Need,
+            Step.Kpi,
+            Step.Value,
+            Step.Solution,
+            Step.Enablers,
+            Step.Assets,
+            Step.UAT,
+        )
+
+        assertContentEquals(
+            expected,
+            actual
+        )
+    }
 
     @Test
     fun `get next step, should return next step or null if current is last`() {
@@ -19,14 +42,14 @@ internal class StepUseCaseTest {
                     Step.Value -> Step.Solution
                     Step.Solution -> Step.Enablers
                     Step.Enablers -> Step.Assets
-                    Step.Assets -> Step.AcceptanceCriteria
-                    Step.AcceptanceCriteria -> null
+                    Step.Assets -> Step.UAT
+                    Step.UAT -> null
                 }
 
                 givenStep to expectedNextStep
             }
             .forEach { (givenStep, expectedStep) ->
-                assertEquals(expectedStep, stepUseCase.getNext(givenStep))
+                assertEquals(expectedStep, stepsUseCase.getNext(givenStep))
             }
     }
 
@@ -41,13 +64,13 @@ internal class StepUseCaseTest {
                     Step.Solution -> Step.Value
                     Step.Enablers -> Step.Solution
                     Step.Assets -> Step.Enablers
-                    Step.AcceptanceCriteria -> Step.Assets
+                    Step.UAT -> Step.Assets
                 }
 
                 givenStep to expectedPreviousStep
             }
             .forEach { (givenStep, expectedStep) ->
-                assertEquals(expectedStep, stepUseCase.getPrevious(givenStep))
+                assertEquals(expectedStep, stepsUseCase.getPrevious(givenStep))
             }
     }
 }

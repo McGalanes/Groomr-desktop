@@ -18,6 +18,6 @@ data class UserStoryState(
         Step.Solution -> solutionState
         Step.Enablers -> enablersState
         Step.Assets -> assetsState
-        Step.AcceptanceCriteria -> acceptanceCriteriaState
+        Step.UAT -> acceptanceCriteriaState
     }
 }

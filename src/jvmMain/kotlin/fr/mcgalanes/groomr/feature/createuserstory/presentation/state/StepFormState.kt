@@ -14,5 +14,5 @@ sealed class StepFormState(val step: Step) {
     object Solution : StepFormState(Step.Solution)
     object Enablers : StepFormState(Step.Enablers)
     object Assets : StepFormState(Step.Assets)
-    object AcceptanceCriteria : StepFormState(Step.AcceptanceCriteria)
+    object AcceptanceCriteria : StepFormState(Step.UAT)
 }

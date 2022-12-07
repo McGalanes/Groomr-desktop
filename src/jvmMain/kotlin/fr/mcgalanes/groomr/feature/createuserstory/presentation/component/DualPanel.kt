@@ -1,7 +1,6 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -46,7 +45,7 @@ fun DualPanel(
     secondaryPanelContent: @Composable () -> Unit,
 ) {
     Row(
-        modifier = modifier.background(MaterialTheme.colorScheme.inversePrimary)
+        modifier = modifier
     ) {
         Surface(
             modifier = Modifier
@@ -54,7 +53,8 @@ fun DualPanel(
                 .weight(1f)
                 .padding(24.dp),
             shape = MaterialTheme.shapes.extraLarge,
-            color = MaterialTheme.colorScheme.surfaceVariant,
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 2.dp,
         ) { primaryPanelContent() }
 
         Box(

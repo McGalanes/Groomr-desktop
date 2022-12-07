@@ -3,9 +3,11 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -84,7 +86,7 @@ private fun CreateUserStoryScreen(
     onStepFormStateChange: (StepFormState) -> Unit,
 ) {
     Row(
-        modifier = modifier
+        modifier = modifier.background(MaterialTheme.colorScheme.background)
     ) {
         NavBar(
             state = uiState.stepsNavBarState,

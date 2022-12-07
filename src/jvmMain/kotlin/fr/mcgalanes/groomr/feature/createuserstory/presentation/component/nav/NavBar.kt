@@ -9,6 +9,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,36 +40,41 @@ fun NavBar(
     state: StepsNavBarState,
     onSelectStep: (Step) -> Unit,
 ) {
-    Box(modifier) {
-        NavigationRail {
-            state.items.forEach { itemState ->
-                NavigationRailItem(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    icon = {
-                        Icon(
-                            imageVector = itemState.item.icon,
-                            contentDescription = itemState.item.label,
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = itemState.item.label,
-                            textAlign = TextAlign.Center,
-                        )
-                    },
-                    selected = itemState.isSelected,
-                    onClick = { onSelectStep(itemState.item.step) }
-                )
+    Surface(
+        modifier = modifier,
+        shadowElevation = 4.dp,
+    ) {
+        Box {
+            NavigationRail {
+                state.items.forEach { itemState ->
+                    NavigationRailItem(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        icon = {
+                            Icon(
+                                imageVector = itemState.item.icon,
+                                contentDescription = itemState.item.label,
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = itemState.item.label,
+                                textAlign = TextAlign.Center,
+                            )
+                        },
+                        selected = itemState.isSelected,
+                        onClick = { onSelectStep(itemState.item.step) }
+                    )
+                }
             }
-        }
 
-        FloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp),
-            onClick = {},
-        ) {
-            Icon(Icons.Filled.Share, "Localized description")
+            FloatingActionButton(
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(Alignment.BottomCenter),
+                onClick = {},
+            ) {
+                Icon(Icons.Filled.Share, "Partager")
+            }
         }
     }
 }

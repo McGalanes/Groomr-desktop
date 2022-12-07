@@ -1,13 +1,13 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation.model
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Checklist
-import androidx.compose.material.icons.filled.EmojiObjects
-import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.PermMedia
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.QueryStats
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Checklist
+import androidx.compose.material.icons.outlined.EmojiObjects
+import androidx.compose.material.icons.outlined.LockOpen
+import androidx.compose.material.icons.outlined.PermMedia
+import androidx.compose.material.icons.outlined.Psychology
+import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.ui.graphics.vector.ImageVector
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
 
@@ -21,13 +21,13 @@ fun Step.toStepItem() =
     StepItem(
         label = this.name,
         icon = when (this) {
-            Step.Need -> Icons.Default.EmojiObjects
-            Step.Kpi -> Icons.Default.QueryStats
-            Step.Value -> Icons.Default.AutoAwesome
-            Step.Solution -> Icons.Default.Psychology
-            Step.Enablers -> Icons.Default.LockOpen
-            Step.Assets -> Icons.Default.PermMedia
-            Step.UAT -> Icons.Default.Checklist
+            Step.Need -> Icons.Outlined.EmojiObjects
+            Step.Kpi -> Icons.Outlined.QueryStats
+            Step.Value -> Icons.Outlined.AutoAwesome
+            Step.Solution -> Icons.Outlined.Psychology
+            Step.Enablers -> Icons.Outlined.LockOpen
+            Step.Assets -> Icons.Outlined.PermMedia
+            Step.UAT -> Icons.Outlined.Checklist
         },
         step = this,
     )

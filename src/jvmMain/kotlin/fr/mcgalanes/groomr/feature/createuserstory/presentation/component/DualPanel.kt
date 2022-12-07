@@ -48,16 +48,17 @@ fun DualPanel(
     Row(
         modifier = modifier.background(MaterialTheme.colorScheme.inversePrimary)
     ) {
-        Box(
-            modifier = Modifier.fillMaxHeight().fillMaxWidth(fraction = 1 / 2f),
-        ) { secondaryPanelContent() }
-
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .padding(24.dp),
             shape = MaterialTheme.shapes.extraLarge,
             color = MaterialTheme.colorScheme.surfaceVariant,
         ) { primaryPanelContent() }
+
+        Box(
+            modifier = Modifier.fillMaxHeight().fillMaxWidth(fraction = 1 / 2f),
+        ) { secondaryPanelContent() }
     }
 }

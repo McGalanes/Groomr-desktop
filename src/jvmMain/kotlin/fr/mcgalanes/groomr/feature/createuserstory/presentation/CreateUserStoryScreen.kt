@@ -49,6 +49,7 @@ private fun CreateUserStoryScreenPreview() {
                         }
                 )
             ),
+            onNavStepClick = {},
             onNextClick = {},
             onPreviousClick = {},
             onStepFormStateChange = {}
@@ -66,6 +67,7 @@ fun CreateUserStoryScreen(
     CreateUserStoryScreen(
         modifier = modifier,
         uiState = uiState,
+        onNavStepClick = createUserStoryViewModel::onNavStepClick,
         onNextClick = createUserStoryViewModel::onNextClick,
         onPreviousClick = createUserStoryViewModel::onPreviousClick,
         onStepFormStateChange = {}
@@ -76,6 +78,7 @@ fun CreateUserStoryScreen(
 private fun CreateUserStoryScreen(
     modifier: Modifier = Modifier,
     uiState: UiState,
+    onNavStepClick: (Step) -> Unit,
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
     onStepFormStateChange: (StepFormState) -> Unit,
@@ -85,7 +88,7 @@ private fun CreateUserStoryScreen(
     ) {
         NavBar(
             state = uiState.stepsNavBarState,
-            onSelectStep = {}
+            onSelectStep = onNavStepClick,
         )
 
         DualPanel(

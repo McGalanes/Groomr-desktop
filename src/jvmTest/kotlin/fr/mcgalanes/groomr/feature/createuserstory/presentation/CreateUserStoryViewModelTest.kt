@@ -8,6 +8,8 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 
 internal class CreateUserStoryViewModelTest {
@@ -76,5 +78,40 @@ internal class CreateUserStoryViewModelTest {
             viewModel.userStoryState.value[previousStep],
             viewModel.uiState.value.stepFormState,
         )
+    }
+
+    @Test
+    fun `on nav step click, should exclusively select this step`() {
+        //GIVEN
+        val steps = Step.values()
+        every { stepsUseCase.getSteps() } returns steps
+
+        val selectedStep = steps.random()
+        val viewModel = viewModel()
+
+        //WHEN
+        viewModel.onNavStepClick(selectedStep)
+
+        //THEN
+        viewModel
+            .uiState
+            .value
+            .stepsNavBarState
+            .items
+            .forEach { itemState ->
+                when (itemState.item.step) {
+                    selectedStep ->
+                        assertTrue(
+                            actual = itemState.isSelected,
+                            message = "Item `${itemState.item.step}` should be selected"
+                        )
+
+                    else ->
+                        assertFalse(
+                            actual = itemState.isSelected,
+                            message = "Item '${itemState.item.step}' should not be selected"
+                        )
+                }
+            }
     }
 }

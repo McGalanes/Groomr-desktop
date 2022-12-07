@@ -58,4 +58,17 @@ class CreateUserStoryViewModel(
             stepsNavBarState = StepsNavBarState(items = emptyList()),
             stepFormState = userStoryState.value[Step.Need],
         )
+
+    fun onNavStepClick(step: Step) {
+        _uiState.update {
+            val navBarState = it.stepsNavBarState
+            it.copy(
+                stepsNavBarState = navBarState.copy(
+                    items = navBarState.items.map { itemState ->
+                        itemState.copy(isSelected = itemState.item.step == step)
+                    }
+                )
+            )
+        }
+    }
 }

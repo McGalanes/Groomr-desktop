@@ -52,13 +52,6 @@ class CreateUserStoryViewModel(
         }
     }
 
-    private fun defaultUserStoryState() = UserStoryState()
-    private fun defaultUiState() =
-        UiState(
-            stepsNavBarState = StepsNavBarState(items = emptyList()),
-            stepFormState = userStoryState.value[Step.Need],
-        )
-
     fun onNavStepClick(step: Step) {
         _uiState.update {
             val navBarState = it.stepsNavBarState
@@ -71,4 +64,11 @@ class CreateUserStoryViewModel(
             )
         }
     }
+
+    private fun defaultUserStoryState() = UserStoryState()
+    private fun defaultUiState() =
+        UiState(
+            stepsNavBarState = StepsNavBarState(items = emptyList()),
+            stepFormState = userStoryState.value[Step.Need],
+        )
 }

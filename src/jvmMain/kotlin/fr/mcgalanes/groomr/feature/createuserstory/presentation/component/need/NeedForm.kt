@@ -17,7 +17,7 @@ import fr.mcgalanes.groomr.core.compose.component.spacer.HorizontalSpace
 import fr.mcgalanes.groomr.core.compose.component.spacer.VerticalSpace
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.StepForm
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepFormState
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.StepForm
 
 @Preview
 @Composable
@@ -26,7 +26,7 @@ private fun NeedFormPreview() {
         AppTheme(useDarkTheme = false) {
             NeedForm(
                 modifier = Modifier.padding(16.dp),
-                state = StepFormState.Need("", "", ""),
+                state = StepForm.Need("", "", ""),
                 onFormChange = {}
             )
         }
@@ -36,7 +36,7 @@ private fun NeedFormPreview() {
         AppTheme(useDarkTheme = true) {
             NeedForm(
                 modifier = Modifier.padding(16.dp),
-                state = StepFormState.Need("", "", ""),
+                state = StepForm.Need("", "", ""),
                 onFormChange = {}
             )
         }
@@ -47,8 +47,8 @@ private fun NeedFormPreview() {
 @Composable
 fun NeedForm(
     modifier: Modifier = Modifier,
-    state: StepFormState.Need,
-    onFormChange: (StepFormState.Need) -> Unit,
+    state: StepForm.Need,
+    onFormChange: (StepForm.Need) -> Unit,
 ) {
     StepForm(
         modifier = modifier,

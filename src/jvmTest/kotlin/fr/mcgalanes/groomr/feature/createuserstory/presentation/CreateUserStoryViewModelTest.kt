@@ -2,52 +2,40 @@ package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.StepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepsNavBarState
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 
 internal class CreateUserStoryViewModelTest {
 
+    private val steps = Step.values()
     private val stepsUseCase: StepsUseCase = mockk {
-        every { getSteps() } returns emptyArray()
+        every { getSteps() } returns steps
     }
 
     private fun viewModel() = CreateUserStoryViewModel(stepsUseCase)
 
     @Test
-    fun `on init, should show steps nav bar with 'need step' selected`() {
-        //GIVEN
-        val steps = Step.values()
-        every { stepsUseCase.getSteps() } returns steps
-
+    fun `on init, should show Need step`() {
         //WHEN
         val viewModel = viewModel()
 
         //THEN
+        viewModel.assertStepsItems(steps, expectedSelectedStep = Step.Need)
         assertEquals(
-            StepsNavBarState(
-                items = steps
-                    .map {
-                        StepsNavBarState.ItemState(
-                            item = it.toStepItem(),
-                            isSelected = it == Step.Need
-                        )
-                    }
-            ),
-            viewModel.uiState.value.stepsNavBarState,
+            StepForm.Need(persona = "", wish = "", goal = ""),
+            viewModel.uiState.value.stepForm,
         )
     }
 
     @Test
     fun `on next click, should show next step`() {
         //GIVEN
-        val nextStep = Step.values().random()
+        val nextStep = steps.random()
         every { stepsUseCase.getNext(any()) } returns nextStep
 
         val viewModel = viewModel()
@@ -58,14 +46,15 @@ internal class CreateUserStoryViewModelTest {
         //THEN
         assertEquals(
             viewModel.userStoryState.value[nextStep],
-            viewModel.uiState.value.stepFormState,
+            viewModel.uiState.value.stepForm,
         )
+        viewModel.assertStepsItems(steps, expectedSelectedStep = nextStep)
     }
 
     @Test
     fun `on previous click, should show previous step`() {
         //GIVEN
-        val previousStep = Step.values().random()
+        val previousStep = steps.random()
         every { stepsUseCase.getPrevious(any()) } returns previousStep
 
         val viewModel = viewModel()
@@ -76,16 +65,14 @@ internal class CreateUserStoryViewModelTest {
         //THEN
         assertEquals(
             viewModel.userStoryState.value[previousStep],
-            viewModel.uiState.value.stepFormState,
+            viewModel.uiState.value.stepForm,
         )
+        viewModel.assertStepsItems(steps, expectedSelectedStep = previousStep)
     }
 
     @Test
-    fun `on nav step click, should exclusively select this step`() {
+    fun `on nav step click, should show step`() {
         //GIVEN
-        val steps = Step.values()
-        every { stepsUseCase.getSteps() } returns steps
-
         val selectedStep = steps.random()
         val viewModel = viewModel()
 
@@ -93,25 +80,20 @@ internal class CreateUserStoryViewModelTest {
         viewModel.onNavStepClick(selectedStep)
 
         //THEN
-        viewModel
-            .uiState
-            .value
-            .stepsNavBarState
-            .items
-            .forEach { itemState ->
-                when (itemState.item.step) {
-                    selectedStep ->
-                        assertTrue(
-                            actual = itemState.isSelected,
-                            message = "Item `${itemState.item.step}` should be selected"
-                        )
+        viewModel.assertStepsItems(steps, expectedSelectedStep = selectedStep)
+        assertEquals(
+            viewModel.userStoryState.value[selectedStep],
+            viewModel.uiState.value.stepForm,
+        )
+    }
 
-                    else ->
-                        assertFalse(
-                            actual = itemState.isSelected,
-                            message = "Item '${itemState.item.step}' should not be selected"
-                        )
-                }
-            }
+    private fun CreateUserStoryViewModel.assertStepsItems(
+        steps: Array<Step>,
+        expectedSelectedStep: Step,
+    ) {
+        assertEquals(
+            steps.map { it.toStepItem(isSelected = it == expectedSelectedStep) },
+            uiState.value.stepsItems,
+        )
     }
 }

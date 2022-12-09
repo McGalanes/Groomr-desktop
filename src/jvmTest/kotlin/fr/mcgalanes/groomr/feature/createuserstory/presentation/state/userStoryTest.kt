@@ -1,25 +1,26 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation.state
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.UserStory
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-internal class UserStoryStateTest {
+internal class userStoryTest {
 
-    private val userStoryState = UserStoryState()
+    private val userStoryState = UserStory()
 
     @Test
     fun `get by step, should return the right StepState`() {
         //GIVEN
         val params = mapOf(
-            Step.Need to userStoryState.needState,
-            Step.Kpi to userStoryState.kpiState,
-            Step.Value to userStoryState.valueState,
-            Step.Solution to userStoryState.solutionState,
-            Step.Enablers to userStoryState.enablersState,
-            Step.Assets to userStoryState.assetsState,
-            Step.UAT to userStoryState.acceptanceCriteriaState,
+            Step.Need to userStoryState.needForm,
+            Step.Kpi to userStoryState.kpiForm,
+            Step.Value to userStoryState.valueForm,
+            Step.Solution to userStoryState.solutionForm,
+            Step.Enablers to userStoryState.enablersForm,
+            Step.Assets to userStoryState.assetsForm,
+            Step.UAT to userStoryState.uatForm,
         )
 
         //WHEN

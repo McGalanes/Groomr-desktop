@@ -15,9 +15,10 @@ data class StepItem(
     val label: String,
     val icon: ImageVector,
     val step: Step,
+    val isSelected: Boolean,
 )
 
-fun Step.toStepItem() =
+fun Step.toStepItem(isSelected: Boolean) =
     StepItem(
         label = this.name,
         icon = when (this) {
@@ -30,4 +31,5 @@ fun Step.toStepItem() =
             Step.UAT -> Icons.Outlined.Checklist
         },
         step = this,
+        isSelected = isSelected,
     )

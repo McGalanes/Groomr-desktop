@@ -18,17 +18,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.StepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepsNavBarState
 
 @Preview
 @Composable
 fun NavBarPreview() {
     AppTheme {
         NavBar(
-            state = StepsNavBarState(
-                items = Step.values().map { StepsNavBarState.ItemState(it.toStepItem(), false) },
-            ),
+            items = Step.values().map { it.toStepItem(isSelected = false) },
             onSelectStep = {}
         )
     }
@@ -37,7 +35,7 @@ fun NavBarPreview() {
 @Composable
 fun NavBar(
     modifier: Modifier = Modifier,
-    state: StepsNavBarState,
+    items: List<StepItem>,
     onSelectStep: (Step) -> Unit,
 ) {
     Surface(
@@ -46,23 +44,23 @@ fun NavBar(
     ) {
         Box {
             NavigationRail {
-                state.items.forEach { itemState ->
+                items.forEach { item ->
                     NavigationRailItem(
                         modifier = Modifier.padding(vertical = 4.dp),
                         icon = {
                             Icon(
-                                imageVector = itemState.item.icon,
-                                contentDescription = itemState.item.label,
+                                imageVector = item.icon,
+                                contentDescription = item.label,
                             )
                         },
                         label = {
                             Text(
-                                text = itemState.item.label,
+                                text = item.label,
                                 textAlign = TextAlign.Center,
                             )
                         },
-                        selected = itemState.isSelected,
-                        onClick = { onSelectStep(itemState.item.step) }
+                        selected = item.isSelected,
+                        onClick = { onSelectStep(item.step) }
                     )
                 }
             }

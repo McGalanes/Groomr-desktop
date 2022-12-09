@@ -22,8 +22,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.Na
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepFormState
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.StepsNavBarState
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
 
@@ -36,20 +35,14 @@ private fun CreateUserStoryScreenPreview() {
 
         CreateUserStoryScreen(
             uiState = UiState(
-                stepFormState = StepFormState.Need(
+                stepForm = StepForm.Need(
                     persona = "acheteur",
                     wish = "négocier le prix d'un article",
                     goal = "acheter au meilleur prix",
                 ),
-                stepsNavBarState = StepsNavBarState(
-                    items = Step.values()
-                        .map {
-                            StepsNavBarState.ItemState(
-                                it.toStepItem(),
-                                isSelected = it == selectedStep
-                            )
-                        }
-                )
+                stepsItems = Step.values().map {
+                    it.toStepItem(isSelected = it == selectedStep)
+                }
             ),
             onNavStepClick = {},
             onNextClick = {},
@@ -83,13 +76,13 @@ private fun CreateUserStoryScreen(
     onNavStepClick: (Step) -> Unit,
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
-    onStepFormStateChange: (StepFormState) -> Unit,
+    onStepFormStateChange: (StepForm) -> Unit,
 ) {
     Row(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
     ) {
         NavBar(
-            state = uiState.stepsNavBarState,
+            items = uiState.stepsItems,
             onSelectStep = onNavStepClick,
         )
 
@@ -101,8 +94,8 @@ private fun CreateUserStoryScreen(
                     onNextClick = onNextClick,
                     onPreviousClick = onPreviousClick,
                 ) {
-                    when (val stepState = uiState.stepFormState) {
-                        is StepFormState.Need -> {
+                    when (val stepState = uiState.stepForm) {
+                        is StepForm.Need -> {
                             NeedForm(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -117,8 +110,8 @@ private fun CreateUserStoryScreen(
                 }
             },
             secondaryPanelContent = {
-                when (uiState.stepFormState) {
-                    is StepFormState.Need -> NeedTips(Modifier.fillMaxSize())
+                when (uiState.stepForm) {
+                    is StepForm.Need -> NeedTips(Modifier.fillMaxSize())
 
                     else -> {}
                 }

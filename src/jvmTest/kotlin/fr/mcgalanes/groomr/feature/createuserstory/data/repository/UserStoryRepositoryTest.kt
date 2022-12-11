@@ -20,19 +20,19 @@ class UserStoryRepositoryTest {
     }
 
     @Test
-    fun `get user story, should return data`() = runTest {
+    fun `get user story, should return data`() {
         //WHEN
         val actual = repository.getUserStory()
 
         //THEN
         assertEquals(
             defaultUserStory(),
-            actual.first()
+            actual
         )
     }
 
     @Test
-    fun `save user story, should save data`() = runTest {
+    fun `save user story, should save data`() {
         //GIVEN
         val userStory = defaultUserStory()
             .copy(
@@ -47,7 +47,7 @@ class UserStoryRepositoryTest {
         //THEN
         assertEquals(
             userStory,
-            repository.getUserStory().first(),
+            repository.getUserStory(),
         )
     }
 

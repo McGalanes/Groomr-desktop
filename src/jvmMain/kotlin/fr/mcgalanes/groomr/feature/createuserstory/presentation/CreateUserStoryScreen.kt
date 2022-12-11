@@ -22,7 +22,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.Na
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.StepForm
+import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
 

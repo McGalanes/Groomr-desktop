@@ -17,7 +17,7 @@ import fr.mcgalanes.groomr.core.compose.component.spacer.HorizontalSpace
 import fr.mcgalanes.groomr.core.compose.component.spacer.VerticalSpace
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.StepForm
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.StepForm
+import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
 
 @Preview
 @Composable

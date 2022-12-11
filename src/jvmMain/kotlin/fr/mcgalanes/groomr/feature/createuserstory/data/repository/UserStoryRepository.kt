@@ -2,7 +2,6 @@ package fr.mcgalanes.groomr.feature.createuserstory.data.repository
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.UserStory
 import fr.mcgalanes.groomr.feature.createuserstory.domain.repository.UserStoryRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class UserStoryRepository : UserStoryRepository {
@@ -29,7 +28,7 @@ class UserStoryRepository : UserStoryRepository {
 
     private val _userStory = MutableStateFlow(defaultUserStory)
 
-    override fun getUserStory(): Flow<UserStory> = _userStory
+    override fun getUserStory(): UserStory = _userStory.value
 
     override fun saveUserStory(userStory: UserStory) {
         _userStory.value = userStory

@@ -1,6 +1,4 @@
-package fr.mcgalanes.groomr.feature.createuserstory.presentation.model
-
-import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+package fr.mcgalanes.groomr.feature.createuserstory.domain.model
 
 sealed class StepForm(val step: Step) {
     data class Need(

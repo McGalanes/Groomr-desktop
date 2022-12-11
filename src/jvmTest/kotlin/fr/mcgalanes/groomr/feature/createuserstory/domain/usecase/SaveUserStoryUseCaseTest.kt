@@ -4,10 +4,6 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.model.UserStory
 import fr.mcgalanes.groomr.feature.createuserstory.domain.repository.UserStoryRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.test.runTest
 
 class SaveUserStoryUseCaseTest {
@@ -35,11 +31,11 @@ class SaveUserStoryUseCaseTest {
     fun `should save user story`() = runTest {
         //GIVEN
         val repository = object : UserStoryRepository {
-            private val flow = MutableStateFlow<UserStory?>(null)
+            private var userStory: UserStory? = null
 
-            override fun getUserStory(): Flow<UserStory> = flow.mapNotNull { it!! }
+            override fun getUserStory(): UserStory = userStory!!
             override fun saveUserStory(userStory: UserStory) {
-                flow.value = userStory
+                this.userStory = userStory
             }
         }
 
@@ -49,6 +45,6 @@ class SaveUserStoryUseCaseTest {
         saveUserStory(userStory)
 
         //THEN
-        assertEquals(userStory, repository.getUserStory().first())
+        assertEquals(userStory, repository.getUserStory())
     }
 }

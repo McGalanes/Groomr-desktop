@@ -4,19 +4,15 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.model.UserStory
 import fr.mcgalanes.groomr.feature.createuserstory.domain.repository.UserStoryRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
 
 
 class GetUserStoryUseCaseTest {
 
     private val userStory =
         UserStory(
-            persona = "",
-            wish = "",
-            goal = "",
+            persona = "driver",
+            wish = "to block badly behaved passengers",
+            goal = "they are never shown me again",
             kpi = "",
             businessValue = 0,
             solution = "",
@@ -32,10 +28,10 @@ class GetUserStoryUseCaseTest {
         )
 
     @Test
-    fun `should return user story`() = runTest {
+    fun `should return user story`() {
         //GIVEN
         val repository = object : UserStoryRepository {
-            override fun getUserStory(): Flow<UserStory> = flowOf(userStory)
+            override fun getUserStory(): UserStory = userStory
             override fun saveUserStory(userStory: UserStory) {}
         }
 
@@ -45,6 +41,6 @@ class GetUserStoryUseCaseTest {
         val actual = getUserStory()
 
         //THEN
-        assertEquals(userStory, actual.first())
+        assertEquals(userStory, actual)
     }
 }

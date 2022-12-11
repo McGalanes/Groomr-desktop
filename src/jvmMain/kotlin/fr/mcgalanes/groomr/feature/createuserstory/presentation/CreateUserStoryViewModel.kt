@@ -3,8 +3,8 @@ package fr.mcgalanes.groomr.feature.createuserstory.presentation
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.UserStory
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,31 +15,19 @@ class CreateUserStoryViewModel(
     getSteps: GetStepsUseCase,
     private val getNextStep: GetNextStepUseCase,
     private val getPreviousStep: GetPreviousStepUseCase,
+    private val getStepForm: GetStepFormUseCase,
 ) {
-    private val _userStoryState = MutableStateFlow(UserStory())
-    val userStoryState = _userStoryState.asStateFlow()
+
+    private val defaultSelectedStep = Step.Need
 
     private val _uiState = MutableStateFlow(
         UiState(
-            stepsItems = emptyList(),
-            stepForm = userStoryState.value[Step.Need],
+            stepsItems = getSteps().map { it.toStepItem(isSelected = it == defaultSelectedStep) },
+            stepForm = getStepForm(defaultSelectedStep),
         )
     )
     val uiState = _uiState.asStateFlow()
 
-    init {
-        val steps = getSteps()
-        val defaultSelectedStep = steps[0]
-
-        _uiState.update {
-            it.copy(
-                stepsItems = steps.map { step ->
-                    step.toStepItem(isSelected = step == defaultSelectedStep)
-                },
-                stepForm = userStoryState.value[defaultSelectedStep]
-            )
-        }
-    }
 
     fun onNextClick() {
         val currentStep = _uiState.value.stepForm.step
@@ -56,7 +44,7 @@ class CreateUserStoryViewModel(
     private fun selectStep(step: Step) {
         _uiState.update {
             it.copy(
-                stepForm = userStoryState.value[step],
+                stepForm = getStepForm(step),
                 stepsItems = it.stepsItems.map { item ->
                     item.copy(isSelected = item.step == step)
                 }

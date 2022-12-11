@@ -31,13 +31,12 @@ class CreateUserStoryViewModel(
         val steps = getSteps()
         val defaultSelectedStep = steps[0]
 
-        _uiState.update { it.copy(stepForm = userStoryState.value[defaultSelectedStep]) }
-
         _uiState.update {
             it.copy(
                 stepsItems = steps.map { step ->
                     step.toStepItem(isSelected = step == defaultSelectedStep)
-                }
+                },
+                stepForm = userStoryState.value[defaultSelectedStep]
             )
         }
     }

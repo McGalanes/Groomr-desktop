@@ -23,7 +23,7 @@ fun main() = application {
 @Composable
 @Preview
 fun App() {
-    AppTheme {
+    AppTheme(useDarkTheme = false) {
         CreateUserStoryScreen()
     }
 }

@@ -27,7 +27,8 @@ fun NavBarPreview() {
     AppTheme {
         NavBar(
             items = Step.values().map { it.toStepItem(isSelected = false) },
-            onSelectStep = {}
+            onItemClick = {},
+            onFabClick = {},
         )
     }
 }
@@ -36,7 +37,8 @@ fun NavBarPreview() {
 fun NavBar(
     modifier: Modifier = Modifier,
     items: List<StepItem>,
-    onSelectStep: (Step) -> Unit,
+    onItemClick: (Step) -> Unit,
+    onFabClick: () -> Unit,
 ) {
     Surface(
         modifier = modifier,
@@ -60,7 +62,7 @@ fun NavBar(
                             )
                         },
                         selected = item.isSelected,
-                        onClick = { onSelectStep(item.step) }
+                        onClick = { onItemClick(item.step) }
                     )
                 }
             }
@@ -69,7 +71,7 @@ fun NavBar(
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(Alignment.BottomCenter),
-                onClick = {},
+                onClick = onFabClick,
             ) {
                 Icon(Icons.Filled.Share, "Partager")
             }

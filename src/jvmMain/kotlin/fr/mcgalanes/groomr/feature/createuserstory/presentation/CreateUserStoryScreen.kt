@@ -16,13 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
+import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.DualPanel
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.FormsStepper
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.NavBar
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
-import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
 
@@ -83,7 +83,8 @@ private fun CreateUserStoryScreen(
     ) {
         NavBar(
             items = uiState.stepsItems,
-            onSelectStep = onNavStepClick,
+            onItemClick = onNavStepClick,
+            onFabClick = { TODO() }
         )
 
         DualPanel(

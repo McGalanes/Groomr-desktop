@@ -1,7 +1,9 @@
 package fr.mcgalanes.groomr.feature.createuserstory.injection
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.repository.UserStoryRepository
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
@@ -12,11 +14,15 @@ import fr.mcgalanes.groomr.feature.createuserstory.data.repository.UserStoryRepo
 
 fun createUserStoryModule() = module {
     // Domain
-    single { GetStepsUseCase() }
     single { GetUserStoryUseCase(get()) }
+    single { GetStepsUseCase() }
     single { GetNextStepUseCase() }
     single { GetPreviousStepUseCase() }
     single { GetStepFormUseCase(get()) }
+    single { GetNextStepFormUseCase(get(), get()) }
+    single { GetPreviousStepFormUseCase(get(), get()) }
+
+    // Data
     single<UserStoryRepository> { DefaultUserStoryRepository() }
 
     // Presentation

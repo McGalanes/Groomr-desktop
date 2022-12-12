@@ -2,8 +2,8 @@ package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
-import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepUseCase
-import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepFormUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
@@ -18,16 +18,16 @@ internal class CreateUserStoryViewModelTest {
     private val steps = Step.values()
 
     private val getSteps: GetStepsUseCase = mockk { every { this@mockk() } returns steps }
-    private val getNextStep: GetNextStepUseCase = mockk()
-    private val getPreviousStep: GetPreviousStepUseCase = mockk()
-    private val getStepForm: GetStepFormUseCase = mockk()
+    private val getNextStepForm: GetNextStepFormUseCase = mockk()
+    private val getPreviousStepForm: GetPreviousStepFormUseCase = mockk()
+    private val getStepForm: GetStepFormUseCase = mockk(relaxed = true)
 
     private fun viewModel() =
         CreateUserStoryViewModel(
             getSteps,
-            getNextStep,
-            getPreviousStep,
             getStepForm,
+            getNextStepForm,
+            getPreviousStepForm,
         )
 
     @Test
@@ -48,10 +48,8 @@ internal class CreateUserStoryViewModelTest {
     @Test
     fun `on next click, should show next step`() {
         //GIVEN
-        val nextStep = steps.random()
         val nextStepForm = StepForm.Value
-        every { getNextStep(any()) } returns nextStep
-        every { getStepForm(any()) } returns nextStepForm
+        every { getNextStepForm(any()) } returns nextStepForm
 
         val viewModel = viewModel()
 
@@ -63,16 +61,14 @@ internal class CreateUserStoryViewModelTest {
             nextStepForm,
             viewModel.uiState.value.stepForm,
         )
-        viewModel.assertStepsItems(steps, expectedSelectedStep = nextStep)
+        viewModel.assertStepsItems(steps, expectedSelectedStep = nextStepForm.step)
     }
 
     @Test
     fun `on previous click, should show previous step`() {
         //GIVEN
-        val previousStep = steps.random()
         val previousStepForm = StepForm.Assets
-        every { getPreviousStep(any()) } returns previousStep
-        every { getStepForm(any()) } returns previousStepForm
+        every { getPreviousStepForm(any()) } returns previousStepForm
 
         val viewModel = viewModel()
 
@@ -84,14 +80,14 @@ internal class CreateUserStoryViewModelTest {
             previousStepForm,
             viewModel.uiState.value.stepForm,
         )
-        viewModel.assertStepsItems(steps, expectedSelectedStep = previousStep)
+        viewModel.assertStepsItems(steps, expectedSelectedStep = previousStepForm.step)
     }
 
     @Test
     fun `on nav step click, should show step`() {
         //GIVEN
-        val selectedStep = steps.random()
         val selectedStepForm = StepForm.Solution
+        val selectedStep = selectedStepForm.step
         every { getStepForm(any()) } returns selectedStepForm
 
         val viewModel = viewModel()

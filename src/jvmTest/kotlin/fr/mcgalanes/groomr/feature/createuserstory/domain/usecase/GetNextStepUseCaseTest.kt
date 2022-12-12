@@ -18,7 +18,7 @@ class GetNextStepUseCaseTest {
                     Step.Solution -> Step.Enablers
                     Step.Enablers -> Step.Assets
                     Step.Assets -> Step.UAT
-                    Step.UAT -> null
+                    Step.UAT -> givenStep
                 }
 
                 givenStep to expectedNextStep

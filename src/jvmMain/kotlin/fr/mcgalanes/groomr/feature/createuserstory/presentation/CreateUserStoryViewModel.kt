@@ -1,8 +1,9 @@
 package fr.mcgalanes.groomr.feature.createuserstory.presentation
 
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.Step
-import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepUseCase
-import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetNextStepFormUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
@@ -13,9 +14,9 @@ import kotlinx.coroutines.flow.update
 
 class CreateUserStoryViewModel(
     getSteps: GetStepsUseCase,
-    private val getNextStep: GetNextStepUseCase,
-    private val getPreviousStep: GetPreviousStepUseCase,
     private val getStepForm: GetStepFormUseCase,
+    private val getNextStepForm: GetNextStepFormUseCase,
+    private val getPreviousStepForm: GetPreviousStepFormUseCase,
 ) {
 
     private val defaultSelectedStep = Step.Need
@@ -31,22 +32,22 @@ class CreateUserStoryViewModel(
 
     fun onNextClick() {
         val currentStep = _uiState.value.stepForm.step
-        getNextStep(currentStep)?.let(::selectStep)
+        showStep(getNextStepForm(currentStep))
     }
 
     fun onPreviousClick() {
         val currentStep = _uiState.value.stepForm.step
-        getPreviousStep(currentStep)?.let(::selectStep)
+        showStep(getPreviousStepForm(currentStep))
     }
 
-    fun onNavStepClick(step: Step) = selectStep(step)
+    fun onNavStepClick(step: Step) = showStep(getStepForm(step))
 
-    private fun selectStep(step: Step) {
+    private fun showStep(stepForm: StepForm) {
         _uiState.update {
             it.copy(
-                stepForm = getStepForm(step),
+                stepForm = stepForm,
                 stepsItems = it.stepsItems.map { item ->
-                    item.copy(isSelected = item.step == step)
+                    item.copy(isSelected = item.step == stepForm.step)
                 }
             )
         }

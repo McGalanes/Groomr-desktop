@@ -6,5 +6,5 @@ class GetNextStepUseCase {
     private val steps = Step.values()
 
     operator fun invoke(currentStep: Step) =
-        steps.find { it.ordinal == currentStep.ordinal + 1 }
+        steps.find { it.ordinal == currentStep.ordinal + 1 } ?: currentStep
 }

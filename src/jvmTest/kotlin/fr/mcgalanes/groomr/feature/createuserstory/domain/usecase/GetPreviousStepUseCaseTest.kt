@@ -13,7 +13,7 @@ class GetPreviousStepUseCaseTest {
         Step.values()
             .map { givenStep ->
                 val expectedPreviousStep = when (givenStep) {
-                    Step.Need -> null
+                    Step.Need -> givenStep
                     Step.Kpi -> Step.Need
                     Step.Value -> Step.Kpi
                     Step.Solution -> Step.Value

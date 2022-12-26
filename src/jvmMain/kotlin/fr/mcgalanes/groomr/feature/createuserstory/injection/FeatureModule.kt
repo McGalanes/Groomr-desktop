@@ -8,6 +8,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousSte
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetUserStoryUseCase
+import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.SaveStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.CreateUserStoryViewModel
 import org.koin.dsl.module
 import fr.mcgalanes.groomr.feature.createuserstory.data.repository.UserStoryRepository as DefaultUserStoryRepository
@@ -21,10 +22,11 @@ fun createUserStoryModule() = module {
     single { GetStepFormUseCase(get()) }
     single { GetNextStepFormUseCase(get(), get()) }
     single { GetPreviousStepFormUseCase(get(), get()) }
+    single { SaveStepFormUseCase(get()) }
 
     // Data
     single<UserStoryRepository> { DefaultUserStoryRepository() }
 
     // Presentation
-    single { CreateUserStoryViewModel(get(), get(), get(), get()) }
+    single { CreateUserStoryViewModel(get(), get(), get(), get(), get()) }
 }

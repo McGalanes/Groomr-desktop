@@ -22,6 +22,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.FormsS
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.NavBar
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.NeedFormField
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
@@ -47,7 +48,7 @@ private fun CreateUserStoryScreenPreview() {
             onNavStepClick = {},
             onNextClick = {},
             onPreviousClick = {},
-            onStepFormStateChange = {}
+            onNeedFormFieldChange = { _, _ -> }
         )
     }
 }
@@ -65,7 +66,7 @@ fun CreateUserStoryScreen(
         onNavStepClick = createUserStoryViewModel::onNavStepClick,
         onNextClick = createUserStoryViewModel::onNextClick,
         onPreviousClick = createUserStoryViewModel::onPreviousClick,
-        onStepFormStateChange = {}
+        onNeedFormFieldChange = createUserStoryViewModel::onNeedFormFieldChange,
     )
 }
 
@@ -76,7 +77,7 @@ private fun CreateUserStoryScreen(
     onNavStepClick: (Step) -> Unit,
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
-    onStepFormStateChange: (StepForm) -> Unit,
+    onNeedFormFieldChange: (NeedFormField, String) -> Unit,
 ) {
     Row(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -102,7 +103,7 @@ private fun CreateUserStoryScreen(
                                     .fillMaxSize()
                                     .padding(16.dp),
                                 state = stepState,
-                                onFormChange = onStepFormStateChange
+                                onFieldChange = onNeedFormFieldChange,
                             )
                         }
 

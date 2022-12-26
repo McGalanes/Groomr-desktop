@@ -16,8 +16,9 @@ import androidx.compose.ui.unit.dp
 import fr.mcgalanes.groomr.core.compose.component.spacer.HorizontalSpace
 import fr.mcgalanes.groomr.core.compose.component.spacer.VerticalSpace
 import fr.mcgalanes.groomr.core.compose.theme.AppTheme
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.StepForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.NeedFormField
 
 @Preview
 @Composable
@@ -27,7 +28,7 @@ private fun NeedFormPreview() {
             NeedForm(
                 modifier = Modifier.padding(16.dp),
                 state = StepForm.Need("", "", ""),
-                onFormChange = {}
+                onFieldChange = { _, _ -> }
             )
         }
 
@@ -37,7 +38,7 @@ private fun NeedFormPreview() {
             NeedForm(
                 modifier = Modifier.padding(16.dp),
                 state = StepForm.Need("", "", ""),
-                onFormChange = {}
+                onFieldChange = { _, _ -> }
             )
         }
     }
@@ -48,7 +49,7 @@ private fun NeedFormPreview() {
 fun NeedForm(
     modifier: Modifier = Modifier,
     state: StepForm.Need,
-    onFormChange: (StepForm.Need) -> Unit,
+    onFieldChange: (NeedFormField, String) -> Unit,
 ) {
     StepForm(
         modifier = modifier,
@@ -66,7 +67,7 @@ fun NeedForm(
             label = { Text(text = ExtractedStrings.createuserstory_needform_persona_label) },
             placeholder = { Text(text = ExtractedStrings.createuserstory_needform_persona_placeholder) },
             value = state.persona,
-            onValueChange = { onFormChange(state.copy(persona = it)) },
+            onValueChange = { onFieldChange(NeedFormField.Persona, it) },
         )
 
         VerticalSpace(16.dp)
@@ -75,8 +76,9 @@ fun NeedForm(
             label = { Text(text = ExtractedStrings.createuserstory_needform_wish_label) },
             placeholder = { Text(text = ExtractedStrings.createuserstory_needform_wish_placeholder) },
             value = state.wish,
-            onValueChange = { onFormChange(state.copy(wish = it)) },
-        )
+            onValueChange = { onFieldChange(NeedFormField.Wish, it) },
+
+            )
 
         VerticalSpace(16.dp)
 
@@ -84,7 +86,8 @@ fun NeedForm(
             label = { Text(text = ExtractedStrings.createuserstory_needform_goal_label) },
             placeholder = { Text(text = ExtractedStrings.createuserstory_needform_goal_placeholder) },
             value = state.goal,
-            onValueChange = { onFormChange(state.copy(goal = it)) },
-        )
+            onValueChange = { onFieldChange(NeedFormField.Goal, it) },
+
+            )
     }
 }

@@ -13,4 +13,7 @@ object ExtractedStrings {
     val createuserstory_kpiform_title = "KPI de succès"
     val createuserstory_kpiform_field_label = "KPI"
     val createuserstory_kpiform_field_placeholder = "La feature est un succès si..."
+
+    val createuserstory_valueform_title = "Valeur métier"
+    val createuserstory_valueform_field_label = "Valeur"
 }

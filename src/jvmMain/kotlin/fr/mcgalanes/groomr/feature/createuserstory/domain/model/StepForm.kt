@@ -8,7 +8,7 @@ sealed class StepForm(val step: Step) {
     ) : StepForm(Step.Need)
 
     data class Kpi(val kpi: String) : StepForm(Step.Kpi)
-    object Value : StepForm(Step.Value)
+    data class Value(val businessValue: Int?) : StepForm(Step.Value)
     object Solution : StepForm(Step.Solution)
     object Enablers : StepForm(Step.Enablers)
     object Assets : StepForm(Step.Assets)

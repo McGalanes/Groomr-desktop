@@ -52,7 +52,7 @@ internal class CreateUserStoryViewModelTest {
     @Test
     fun `on next click, should show next step`() {
         //GIVEN
-        val nextStepForm = StepForm.Value
+        val nextStepForm = StepForm.Value(0)
         every { getNextStepForm(any()) } returns nextStepForm
 
         val viewModel = viewModel()
@@ -172,6 +172,22 @@ internal class CreateUserStoryViewModelTest {
         val stepForm = viewModel.uiState.value.stepForm as StepForm.Kpi
         assertEquals(text, stepForm.kpi)
         verify { saveStepForm(stepForm.copy(kpi = text)) }
+    }
+
+    @Test
+    fun `on business value change, should show and save it`() {
+        //GIVEN
+        every { getStepForm(any()) } returns StepForm.Value(businessValue = 0)
+        val text = "75"
+        val viewModel = viewModel()
+
+        //WHEN
+        viewModel.onBusinessValueChange(text)
+
+        //THEN
+        val stepForm = viewModel.uiState.value.stepForm as StepForm.Value
+        assertEquals(text.toIntOrNull(), stepForm.businessValue)
+        verify { saveStepForm(stepForm.copy(businessValue = text.toIntOrNull()!!)) }
     }
 
     private fun CreateUserStoryViewModel.assertStepsItems(

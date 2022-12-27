@@ -49,6 +49,23 @@ class SaveStepFormUseCaseTest {
         assertEquals(stepForm.kpi, userStory.kpi)
     }
 
+    @Test
+    fun `should save business value form`() {
+        //GIVEN
+        val stepForm = StepForm.Value(businessValue = 50)
+
+        val userStoryRepository = mockUseStoryRepository()
+
+        val saveStepForm = SaveStepFormUseCase(userStoryRepository)
+
+        //WHEN
+        saveStepForm(stepForm)
+
+        //THEN
+        val userStory = userStoryRepository.getUserStory()
+        assertEquals(stepForm.businessValue, userStory.businessValue)
+    }
+
     private fun mockUseStoryRepository() = object : UserStoryRepository {
         private var userStory = fakeUserStory()
 

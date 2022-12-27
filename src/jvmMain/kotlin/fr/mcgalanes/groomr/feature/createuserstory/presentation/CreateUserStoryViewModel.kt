@@ -51,6 +51,9 @@ class CreateUserStoryViewModel(
 
     fun onKpiChange(text: String) = onFormFieldChange<StepForm.Kpi> { it.copy(kpi = text) }
 
+    fun onBusinessValueChange(text: String) =
+        onFormFieldChange<StepForm.Value> { it.copy(businessValue = text.toIntOrNull()) }
+
     private inline fun <reified T : StepForm> onFormFieldChange(update: (T) -> T) {
         val stepForm = _uiState.value.stepForm
         if (stepForm !is T) return

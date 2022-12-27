@@ -19,7 +19,7 @@ class GetPreviousStepFormUseCaseTest {
             every { this@mockk(currentStep) } returns previousStep
         }
 
-        val previousStepForm = StepForm.Value
+        val previousStepForm = StepForm.Value(0)
         val getStepForm: GetStepFormUseCase = mockk {
             every { this@mockk(previousStep) } returns previousStepForm
         }

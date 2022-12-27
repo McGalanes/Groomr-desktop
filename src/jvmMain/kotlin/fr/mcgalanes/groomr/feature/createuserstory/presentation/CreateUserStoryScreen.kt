@@ -23,6 +23,7 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.Na
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.kpi.KpiForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedTips
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.value.BusinessValueForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
@@ -52,6 +53,7 @@ private fun CreateUserStoryScreenPreview() {
             onWishChange = {},
             onGoalChange = {},
             onKpiChange = {},
+            onBusinessValueChange = {},
         )
     }
 }
@@ -73,6 +75,7 @@ fun CreateUserStoryScreen(
         onWishChange = viewModel::onWishChange,
         onGoalChange = viewModel::onGoalChange,
         onKpiChange = viewModel::onKpiChange,
+        onBusinessValueChange = viewModel::onBusinessValueChange,
     )
 }
 
@@ -87,6 +90,7 @@ private fun CreateUserStoryScreen(
     onWishChange: (String) -> Unit,
     onGoalChange: (String) -> Unit,
     onKpiChange: (String) -> Unit,
+    onBusinessValueChange: (String) -> Unit,
 ) {
     Row(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -125,6 +129,16 @@ private fun CreateUserStoryScreen(
                                     .padding(16.dp),
                                 state = stepState,
                                 onKpiChange = onKpiChange,
+                            )
+                        }
+
+                        is StepForm.Value -> {
+                            BusinessValueForm(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp),
+                                state = stepState,
+                                onBusinessValueChange = onBusinessValueChange,
                             )
                         }
 

@@ -18,6 +18,8 @@ class SaveStepFormUseCase(private val userStoryRepository: UserStoryRepository) 
 
                     is StepForm.Kpi -> userStory.copy(kpi = stepForm.kpi)
 
+                    is StepForm.Value -> userStory.copy(businessValue = stepForm.businessValue ?: 0)
+
                     else -> TODO()
                 }
             )

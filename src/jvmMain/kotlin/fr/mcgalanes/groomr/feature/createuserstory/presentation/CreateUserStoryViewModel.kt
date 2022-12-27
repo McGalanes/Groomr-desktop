@@ -7,7 +7,6 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousSte
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.SaveStepFormUseCase
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.NeedFormField
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,15 +43,19 @@ class CreateUserStoryViewModel(
 
     fun onNavStepClick(step: Step) = showStep(getStepForm(step))
 
-    fun onNeedFormFieldChange(field: NeedFormField, text: String) {
-        val stepForm = _uiState.value.stepForm
-        if (stepForm !is StepForm.Need) return
+    fun onPersonaChange(text: String) = onFormFieldChange<StepForm.Need> { it.copy(persona = text) }
 
-        val updatedStepForm = when (field) {
-            NeedFormField.Persona -> stepForm.copy(persona = text)
-            NeedFormField.Wish -> stepForm.copy(wish = text)
-            NeedFormField.Goal -> stepForm.copy(goal = text)
-        }
+    fun onWishChange(text: String) = onFormFieldChange<StepForm.Need> { it.copy(wish = text) }
+
+    fun onGoalChange(text: String) = onFormFieldChange<StepForm.Need> { it.copy(goal = text) }
+
+    fun onKpiChange(text: String) = onFormFieldChange<StepForm.Kpi> { it.copy(kpi = text) }
+
+    private inline fun <reified T : StepForm> onFormFieldChange(update: (T) -> T) {
+        val stepForm = _uiState.value.stepForm
+        if (stepForm !is T) return
+
+        val updatedStepForm = update(stepForm)
 
         saveStepForm(updatedStepForm)
 

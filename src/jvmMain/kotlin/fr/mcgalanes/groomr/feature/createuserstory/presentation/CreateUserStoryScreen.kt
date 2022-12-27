@@ -20,9 +20,9 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.model.StepForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.DualPanel
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.FormsStepper
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.NavBar
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedForm
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need.NeedTips
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.NeedFormField
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.kpi.KpiForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedTips
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
@@ -48,7 +48,10 @@ private fun CreateUserStoryScreenPreview() {
             onNavStepClick = {},
             onNextClick = {},
             onPreviousClick = {},
-            onNeedFormFieldChange = { _, _ -> }
+            onPersonaChange = {},
+            onWishChange = {},
+            onGoalChange = {},
+            onKpiChange = {},
         )
     }
 }
@@ -56,17 +59,20 @@ private fun CreateUserStoryScreenPreview() {
 @Composable
 fun CreateUserStoryScreen(
     modifier: Modifier = Modifier,
-    createUserStoryViewModel: CreateUserStoryViewModel = get()
+    viewModel: CreateUserStoryViewModel = get()
 ) {
-    val uiState by createUserStoryViewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     CreateUserStoryScreen(
         modifier = modifier,
         uiState = uiState,
-        onNavStepClick = createUserStoryViewModel::onNavStepClick,
-        onNextClick = createUserStoryViewModel::onNextClick,
-        onPreviousClick = createUserStoryViewModel::onPreviousClick,
-        onNeedFormFieldChange = createUserStoryViewModel::onNeedFormFieldChange,
+        onNavStepClick = viewModel::onNavStepClick,
+        onNextClick = viewModel::onNextClick,
+        onPreviousClick = viewModel::onPreviousClick,
+        onPersonaChange = viewModel::onPersonaChange,
+        onWishChange = viewModel::onWishChange,
+        onGoalChange = viewModel::onGoalChange,
+        onKpiChange = viewModel::onKpiChange,
     )
 }
 
@@ -77,7 +83,10 @@ private fun CreateUserStoryScreen(
     onNavStepClick: (Step) -> Unit,
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
-    onNeedFormFieldChange: (NeedFormField, String) -> Unit,
+    onPersonaChange: (String) -> Unit,
+    onWishChange: (String) -> Unit,
+    onGoalChange: (String) -> Unit,
+    onKpiChange: (String) -> Unit,
 ) {
     Row(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -103,7 +112,19 @@ private fun CreateUserStoryScreen(
                                     .fillMaxSize()
                                     .padding(16.dp),
                                 state = stepState,
-                                onFieldChange = onNeedFormFieldChange,
+                                onPersonaChange = onPersonaChange,
+                                onWishChange = onWishChange,
+                                onGoalChange = onGoalChange,
+                            )
+                        }
+
+                        is StepForm.Kpi -> {
+                            KpiForm(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp),
+                                state = stepState,
+                                onKpiChange = onKpiChange,
                             )
                         }
 

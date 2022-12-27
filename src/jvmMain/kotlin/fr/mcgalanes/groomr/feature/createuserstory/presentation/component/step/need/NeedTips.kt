@@ -1,4 +1,4 @@
-package fr.mcgalanes.groomr.feature.createuserstory.presentation.component.need
+package fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box

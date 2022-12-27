@@ -7,7 +7,6 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetPreviousSte
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepFormUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.GetStepsUseCase
 import fr.mcgalanes.groomr.feature.createuserstory.domain.usecase.SaveStepFormUseCase
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.NeedFormField
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import io.mockk.every
 import io.mockk.mockk
@@ -109,7 +108,7 @@ internal class CreateUserStoryViewModelTest {
     }
 
     @Test
-    fun `on need form field change, should show it`() {
+    fun `on persona change, should show and save it`() {
         //GIVEN
         every { getStepForm(any()) } returns StepForm.Need(persona = "", wish = "", goal = "")
         val text = "Sonny Moore"
@@ -117,49 +116,62 @@ internal class CreateUserStoryViewModelTest {
         val viewModel = viewModel()
 
         //WHEN
-        NeedFormField.values()
-            .forEach { field ->
-                //WHEN
-                viewModel.onNeedFormFieldChange(field, text)
+        viewModel.onPersonaChange(text)
 
-                //THEN
-                val stepForm = viewModel.uiState.value.stepForm as StepForm.Need
-                assertEquals(
-                    text,
-                    when (field) {
-                        NeedFormField.Persona -> stepForm.persona
-                        NeedFormField.Wish -> stepForm.wish
-                        NeedFormField.Goal -> stepForm.goal
-                    }
-                )
-            }
+        //THEN
+        val stepForm = viewModel.uiState.value.stepForm as StepForm.Need
+        assertEquals(text, stepForm.persona)
+        verify { saveStepForm(stepForm.copy(persona = text)) }
     }
 
     @Test
-    fun `on need form field change, should save it`() {
+    fun `on wish change, should show and save it`() {
         //GIVEN
-        val stepForm = StepForm.Need(persona = "", wish = "", goal = "")
-        every { getStepForm(any()) } returns stepForm
-        val text = "Sonny Moore"
+        every { getStepForm(any()) } returns StepForm.Need(persona = "", wish = "", goal = "")
+        val text = "Release more tracks"
 
-        NeedFormField.values()
-            .forEach { field ->
-                val viewModel = viewModel()
+        val viewModel = viewModel()
 
-                //WHEN
-                viewModel.onNeedFormFieldChange(field, text)
+        //WHEN
+        viewModel.onWishChange(text)
 
-                //THEN
-                verify {
-                    saveStepForm(
-                        when (field) {
-                            NeedFormField.Persona -> stepForm.copy(persona = text)
-                            NeedFormField.Wish -> stepForm.copy(wish = text)
-                            NeedFormField.Goal -> stepForm.copy(goal = text)
-                        }
-                    )
-                }
-            }
+        //THEN
+        val stepForm = viewModel.uiState.value.stepForm as StepForm.Need
+        assertEquals(text, stepForm.wish)
+        verify { saveStepForm(stepForm.copy(wish = text)) }
+    }
+
+    @Test
+    fun `on goal change, should show and save it`() {
+        //GIVEN
+        every { getStepForm(any()) } returns StepForm.Need(persona = "", wish = "", goal = "")
+        val text = "Make my fans happy"
+
+        val viewModel = viewModel()
+
+        //WHEN
+        viewModel.onGoalChange(text)
+
+        //THEN
+        val stepForm = viewModel.uiState.value.stepForm as StepForm.Need
+        assertEquals(text, stepForm.goal)
+        verify { saveStepForm(stepForm.copy(goal = text)) }
+    }
+
+    @Test
+    fun `on kpi change, should show and save it`() {
+        //GIVEN
+        every { getStepForm(any()) } returns StepForm.Kpi(kpi = "")
+        val text = "Average basket price should increase"
+        val viewModel = viewModel()
+
+        //WHEN
+        viewModel.onKpiChange(text)
+
+        //THEN
+        val stepForm = viewModel.uiState.value.stepForm as StepForm.Kpi
+        assertEquals(text, stepForm.kpi)
+        verify { saveStepForm(stepForm.copy(kpi = text)) }
     }
 
     private fun CreateUserStoryViewModel.assertStepsItems(

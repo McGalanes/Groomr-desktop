@@ -6,14 +6,17 @@ import fr.mcgalanes.groomr.feature.createuserstory.domain.repository.UserStoryRe
 class SaveStepFormUseCase(private val userStoryRepository: UserStoryRepository) {
     operator fun invoke(stepForm: StepForm) {
         with(userStoryRepository) {
+            val userStory = getUserStory()
+
             saveUserStory(
                 when (stepForm) {
-                    is StepForm.Need ->
-                        getUserStory().copy(
-                            persona = stepForm.persona,
-                            wish = stepForm.wish,
-                            goal = stepForm.goal,
-                        )
+                    is StepForm.Need -> userStory.copy(
+                        persona = stepForm.persona,
+                        wish = stepForm.wish,
+                        goal = stepForm.goal,
+                    )
+
+                    is StepForm.Kpi -> userStory.copy(kpi = stepForm.kpi)
 
                     else -> TODO()
                 }

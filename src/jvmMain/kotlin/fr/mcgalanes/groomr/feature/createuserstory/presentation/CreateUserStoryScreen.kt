@@ -21,9 +21,10 @@ import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.DualPa
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.FormsStepper
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.nav.NavBar
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.kpi.KpiForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.kpi.KpiFormViewModel
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedForm
+import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedFormViewModel
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.need.NeedTips
-import fr.mcgalanes.groomr.feature.createuserstory.presentation.component.step.value.BusinessValueForm
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.model.toStepItem
 import fr.mcgalanes.groomr.feature.createuserstory.presentation.state.UiState
 import fr.mcgalanes.groomr.injection.get
@@ -37,21 +38,23 @@ private fun CreateUserStoryScreenPreview() {
 
         CreateUserStoryScreen(
             uiState = UiState(
-                stepForm = StepForm.Need(
-                    persona = "acheteur",
-                    wish = "négocier le prix d'un article",
-                    goal = "acheter au meilleur prix",
-                ),
                 stepsItems = Step.values().map {
                     it.toStepItem(isSelected = it == selectedStep)
-                }
+                },
+                step = selectedStep,
             ),
             onNavStepClick = {},
             onNextClick = {},
             onPreviousClick = {},
+            needForm = StepForm.Need(
+                persona = "acheteur",
+                wish = "négocier le prix d'un article",
+                goal = "acheter au meilleur prix",
+            ),
             onPersonaChange = {},
             onWishChange = {},
             onGoalChange = {},
+            kpiForm = StepForm.Kpi(""),
             onKpiChange = {},
             onBusinessValueChange = {},
         )
@@ -61,9 +64,13 @@ private fun CreateUserStoryScreenPreview() {
 @Composable
 fun CreateUserStoryScreen(
     modifier: Modifier = Modifier,
-    viewModel: CreateUserStoryViewModel = get()
+    viewModel: CreateUserStoryViewModel = get(),
+    needFormViewModel: NeedFormViewModel = get(),
+    kpiFormViewModel: KpiFormViewModel = get(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val needForm by needFormViewModel.formState.collectAsState()
+    val kpiForm by kpiFormViewModel.formState.collectAsState()
 
     CreateUserStoryScreen(
         modifier = modifier,
@@ -71,11 +78,13 @@ fun CreateUserStoryScreen(
         onNavStepClick = viewModel::onNavStepClick,
         onNextClick = viewModel::onNextClick,
         onPreviousClick = viewModel::onPreviousClick,
-        onPersonaChange = viewModel::onPersonaChange,
-        onWishChange = viewModel::onWishChange,
-        onGoalChange = viewModel::onGoalChange,
-        onKpiChange = viewModel::onKpiChange,
-        onBusinessValueChange = viewModel::onBusinessValueChange,
+        needForm = needForm,
+        onPersonaChange = needFormViewModel::onPersonaChange,
+        onWishChange = needFormViewModel::onWishChange,
+        onGoalChange = needFormViewModel::onGoalChange,
+        kpiForm = kpiForm,
+        onKpiChange = kpiFormViewModel::onKpiChange,
+        onBusinessValueChange = {},
     )
 }
 
@@ -86,9 +95,11 @@ private fun CreateUserStoryScreen(
     onNavStepClick: (Step) -> Unit,
     onNextClick: () -> Unit,
     onPreviousClick: () -> Unit,
+    needForm: StepForm.Need,
     onPersonaChange: (String) -> Unit,
     onWishChange: (String) -> Unit,
     onGoalChange: (String) -> Unit,
+    kpiForm: StepForm.Kpi,
     onKpiChange: (String) -> Unit,
     onBusinessValueChange: (String) -> Unit,
 ) {
@@ -109,48 +120,33 @@ private fun CreateUserStoryScreen(
                     onNextClick = onNextClick,
                     onPreviousClick = onPreviousClick,
                 ) {
-                    when (val stepState = uiState.stepForm) {
-                        is StepForm.Need -> {
+                    when (uiState.step) {
+                        Step.Need ->
                             NeedForm(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(16.dp),
-                                state = stepState,
+                                state = needForm,
                                 onPersonaChange = onPersonaChange,
                                 onWishChange = onWishChange,
                                 onGoalChange = onGoalChange,
                             )
-                        }
 
-                        is StepForm.Kpi -> {
+                        else ->
                             KpiForm(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(16.dp),
-                                state = stepState,
+                                state = kpiForm,
                                 onKpiChange = onKpiChange,
                             )
-                        }
-
-                        is StepForm.Value -> {
-                            BusinessValueForm(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp),
-                                state = stepState,
-                                onBusinessValueChange = onBusinessValueChange,
-                            )
-                        }
-
-                        else -> {}
                     }
                 }
             },
             secondaryPanelContent = {
-                when (uiState.stepForm) {
-                    is StepForm.Need -> NeedTips(Modifier.fillMaxSize())
-
-                    else -> {}
+                when (uiState.step) {
+                    Step.Need -> NeedTips(Modifier.fillMaxSize())
+                    else -> Unit
                 }
             },
         )

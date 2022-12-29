@@ -35,7 +35,7 @@ class SaveStepFormUseCaseTest {
     @Test
     fun `should save kpi form`() {
         //GIVEN
-        val stepForm = StepForm.Kpi(kpi = "")
+        val stepForm = StepForm.Kpi(kpis = listOf())
 
         val userStoryRepository = mockUseStoryRepository()
 
@@ -46,7 +46,7 @@ class SaveStepFormUseCaseTest {
 
         //THEN
         val userStory = userStoryRepository.getUserStory()
-        assertEquals(stepForm.kpi, userStory.kpi)
+        assertEquals(stepForm.kpis, userStory.kpis)
     }
 
     @Test
@@ -80,7 +80,7 @@ class SaveStepFormUseCaseTest {
         persona: String = "",
         wish: String = "",
         goal: String = "",
-        kpi: String = "",
+        kpis: List<String> = listOf(),
         businessValue: Int = 0,
         solution: String = "",
         enablers: List<String> = emptyList(),
@@ -97,7 +97,7 @@ class SaveStepFormUseCaseTest {
             persona = persona,
             wish = wish,
             goal = goal,
-            kpi = kpi,
+            kpis = kpis,
             businessValue = businessValue,
             solution = solution,
             enablers = enablers,

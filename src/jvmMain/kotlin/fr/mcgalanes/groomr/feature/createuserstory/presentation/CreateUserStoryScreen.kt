@@ -54,8 +54,10 @@ private fun CreateUserStoryScreenPreview() {
             onPersonaChange = {},
             onWishChange = {},
             onGoalChange = {},
-            kpiForm = StepForm.Kpi(""),
-            onKpiChange = {},
+            kpiForm = StepForm.Kpi(listOf()),
+            onNewKpiClick = {},
+            onKpiChange = { _, _ -> },
+            onDeleteKpiClick = {},
             onBusinessValueChange = {},
         )
     }
@@ -83,7 +85,9 @@ fun CreateUserStoryScreen(
         onWishChange = needFormViewModel::onWishChange,
         onGoalChange = needFormViewModel::onGoalChange,
         kpiForm = kpiForm,
+        onNewKpiClick = kpiFormViewModel::onNewKpiClick,
         onKpiChange = kpiFormViewModel::onKpiChange,
+        onDeleteKpiClick = kpiFormViewModel::onDeleteKpiClick,
         onBusinessValueChange = {},
     )
 }
@@ -100,7 +104,9 @@ private fun CreateUserStoryScreen(
     onWishChange: (String) -> Unit,
     onGoalChange: (String) -> Unit,
     kpiForm: StepForm.Kpi,
-    onKpiChange: (String) -> Unit,
+    onNewKpiClick: () -> Unit,
+    onKpiChange: (Int, String) -> Unit,
+    onDeleteKpiClick: (Int) -> Unit,
     onBusinessValueChange: (String) -> Unit,
 ) {
     Row(
@@ -139,6 +145,8 @@ private fun CreateUserStoryScreen(
                                     .padding(16.dp),
                                 state = kpiForm,
                                 onKpiChange = onKpiChange,
+                                onNewKpiClick = onNewKpiClick,
+                                onDeleteKpiClick = onDeleteKpiClick,
                             )
                     }
                 }

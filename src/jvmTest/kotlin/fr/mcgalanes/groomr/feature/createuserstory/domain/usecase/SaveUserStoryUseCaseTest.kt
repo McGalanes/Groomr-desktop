@@ -13,7 +13,7 @@ class SaveUserStoryUseCaseTest {
             persona = "",
             wish = "",
             goal = "",
-            kpi = "",
+            kpis = listOf(),
             businessValue = 0,
             solution = "",
             enablers = emptyList(),

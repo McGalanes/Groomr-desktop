@@ -13,7 +13,7 @@ class GetUserStoryUseCaseTest {
             persona = "driver",
             wish = "to block badly behaved passengers",
             goal = "they are never shown me again",
-            kpi = "",
+            kpis = listOf(),
             businessValue = 0,
             solution = "",
             enablers = emptyList(),

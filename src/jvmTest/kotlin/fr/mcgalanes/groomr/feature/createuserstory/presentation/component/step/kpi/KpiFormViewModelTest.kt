@@ -19,7 +19,7 @@ class KpiFormViewModelTest {
 
     @BeforeTest
     fun setUp() {
-        every { getStepForm(Step.Kpi) } returns StepForm.Kpi("")
+        every { getStepForm(Step.Kpi) } returns StepForm.Kpi(kpis = emptyList())
 
         viewModel = KpiFormViewModel(getStepForm, saveStepForm)
     }
@@ -28,22 +28,61 @@ class KpiFormViewModelTest {
     fun `on init, should show empty form`() {
         //THEN
         assertEquals(
-            StepForm.Kpi(""),
+            StepForm.Kpi(kpis = emptyList()),
             viewModel.formState.value,
+        )
+    }
+
+    @Test
+    fun `on new kpi click, should add empty kpi`() {
+        //WHEN
+        viewModel.onNewKpiClick()
+
+        //THEN
+        assertEquals(
+            listOf(""),
+            viewModel.formState.value.kpis
         )
     }
 
     @Test
     fun `on kpi change, should show and save it`() {
         //GIVEN
-        val text = "payemnts should increase"
+        val index = 1
+        val text = "New Kpi"
+
+        viewModel.onNewKpiClick()
+        viewModel.onNewKpiClick()
 
         //WHEN
-        viewModel.onKpiChange(text)
+        viewModel.onKpiChange(index, text)
 
         //THEN
         val stepForm = viewModel.formState.value
-        assertEquals(text, stepForm.kpi)
-        verify { saveStepForm(stepForm.copy(kpi = text)) }
+        assertEquals(text, stepForm.kpis[1])
+
+        verify { saveStepForm(stepForm.copy(kpis = stepForm.kpis)) }
+    }
+
+    @Test
+    fun `on delete kpi click, should remove it`() {
+        //GIVEN
+        viewModel.onNewKpiClick()
+        viewModel.onKpiChange(0, "Kpi 0")
+
+        viewModel.onNewKpiClick()
+        viewModel.onKpiChange(1, "Kpi 1")
+
+        viewModel.onNewKpiClick()
+        viewModel.onKpiChange(2, "Kpi 2")
+
+        //WHEN
+        viewModel.onDeleteKpiClick(index = 1)
+
+        //THEN
+        assertEquals(
+            listOf("Kpi 0", "Kpi 2"),
+            viewModel.formState.value.kpis,
+        )
     }
 }

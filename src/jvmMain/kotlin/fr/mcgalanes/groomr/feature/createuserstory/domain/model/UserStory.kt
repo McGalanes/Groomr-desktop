@@ -4,7 +4,7 @@ data class UserStory(
     val persona: String,
     val wish: String,
     val goal: String,
-    val kpi: String,
+    val kpis: List<String>,
     val businessValue: Int,
     val solution: String,
     val enablers: List<String>,

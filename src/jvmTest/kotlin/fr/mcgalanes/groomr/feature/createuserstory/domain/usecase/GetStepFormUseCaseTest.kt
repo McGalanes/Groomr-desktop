@@ -34,7 +34,7 @@ class GetStepFormUseCaseTest {
     private fun givenStepToExpectedStepForm(userStory: UserStory) = Step.values().map { step ->
         when (step) {
             Step.Need -> step to StepForm.Need(userStory.persona, userStory.wish, userStory.goal)
-            Step.Kpi -> step to StepForm.Kpi(userStory.kpi)
+            Step.Kpi -> step to StepForm.Kpi(userStory.kpis)
             Step.Value -> step to StepForm.Value(userStory.businessValue)
             Step.Solution -> step to StepForm.Solution
             Step.Enablers -> step to StepForm.Enablers
@@ -47,7 +47,7 @@ class GetStepFormUseCaseTest {
         persona = "",
         wish = "",
         goal = "",
-        kpi = "",
+        kpis = listOf(),
         businessValue = 0,
         solution = "",
         enablers = emptyList(),

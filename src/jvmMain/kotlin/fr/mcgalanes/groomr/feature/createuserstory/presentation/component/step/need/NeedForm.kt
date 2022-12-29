@@ -7,8 +7,8 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -68,7 +68,7 @@ fun NeedForm(
         VerticalSpace(24.dp)
 
 
-        OutlinedTextField(
+        TextField(
             label = { Text(text = ExtractedStrings.createuserstory_needform_persona_label) },
             placeholder = { Text(text = ExtractedStrings.createuserstory_needform_persona_placeholder) },
             value = state.persona,
@@ -77,7 +77,7 @@ fun NeedForm(
 
         VerticalSpace(16.dp)
 
-        OutlinedTextField(
+        TextField(
             label = { Text(text = ExtractedStrings.createuserstory_needform_wish_label) },
             placeholder = { Text(text = ExtractedStrings.createuserstory_needform_wish_placeholder) },
             value = state.wish,
@@ -86,7 +86,7 @@ fun NeedForm(
 
         VerticalSpace(16.dp)
 
-        OutlinedTextField(
+        TextField(
             label = { Text(text = ExtractedStrings.createuserstory_needform_goal_label) },
             placeholder = { Text(text = ExtractedStrings.createuserstory_needform_goal_placeholder) },
             value = state.goal,

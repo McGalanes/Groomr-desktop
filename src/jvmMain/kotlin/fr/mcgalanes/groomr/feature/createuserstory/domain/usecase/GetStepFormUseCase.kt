@@ -16,7 +16,7 @@ class GetStepFormUseCase(
                 goal = userStory.goal
             )
 
-            Step.Kpi -> StepForm.Kpi(userStory.kpi)
+            Step.Kpi -> StepForm.Kpi(userStory.kpis)
             Step.Value -> StepForm.Value(userStory.businessValue)
             Step.Solution -> StepForm.Solution
             Step.Enablers -> StepForm.Enablers

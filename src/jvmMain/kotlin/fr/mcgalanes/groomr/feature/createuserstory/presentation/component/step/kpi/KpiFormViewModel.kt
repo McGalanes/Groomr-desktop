@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.update
 
 class KpiFormViewModel(
     getStepForm: GetStepFormUseCase,
-    private val saveStepForm: SaveStepFormUseCase
+    private val saveStepForm: SaveStepFormUseCase,
 ) : StepFormViewModel {
 
-    private val _formState = MutableStateFlow(StepForm.Kpi(""))
+    private val _formState = MutableStateFlow(StepForm.Kpi(listOf()))
     val formState = _formState.asStateFlow()
 
     override val step: Step = Step.Kpi
@@ -23,9 +23,17 @@ class KpiFormViewModel(
         _formState.update { getStepForm(Step.Kpi) as StepForm.Kpi }
     }
 
-    fun onKpiChange(text: String) {
-        val updatedStepForm = StepForm.Kpi(text)
-        saveStepForm(updatedStepForm)
-        _formState.update { updatedStepForm }
+    fun onKpiChange(index: Int, text: String) = _formState.updateAndSaveKpis { it[index] = text }
+
+    fun onNewKpiClick() = _formState.updateAndSaveKpis { it.add("") }
+
+    fun onDeleteKpiClick(index: Int) = _formState.updateAndSaveKpis { it.removeAt(index) }
+
+    private fun MutableStateFlow<StepForm.Kpi>.updateAndSaveKpis(
+        update: (MutableList<String>) -> Unit,
+    ) = update {
+        val kpis = it.kpis.toMutableList()
+        update(kpis)
+        it.copy(kpis = kpis).also(saveStepForm::invoke)
     }
 }
